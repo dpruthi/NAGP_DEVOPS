@@ -1,23 +1,28 @@
-pipeline{
-  agent any
-  tools{
-     maven '3.23'
-  }
-  stages{
-    stage("Checkout"){
-      steps{
-        checkout scm
-      }
+pipeline {
+    agent any
+    stages {
+        stage('Checkout'){
+        steps{
+            echo 'Cloning the repository'
+            git branch: 'master', url: 'https://github.com/dpruthi/NAGP_DEVOPS.git'
+        }
     }
-    stage("Build"){
-      steps{
-       bat 'mvn clean'
-      }
+    stage('Test'){
+        steps{
+             echo 'Testing the code'
+             bat 'mvn clean test'
+        }
     }
-    stage("Test"){
-      steps{
-       bat 'mvn test'
-      }
     }
-  }
+    post{
+        always{
+            echo 'this is always going to execute, in case of failure as well'
+        }
+        success{
+            echo 'build success'
+        }
+        failure{
+            echo 'build failed'
+        }
+    }
 }
