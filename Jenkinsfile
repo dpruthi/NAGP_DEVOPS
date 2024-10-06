@@ -4,13 +4,17 @@ pipeline {
         stage('Checkout'){
         steps{
             echo 'Cloning the repository'
-            git branch: 'master', url: 'https://github.com/dpruthi/NAGP_DEVOPS.git'
         }
     }
+     stage("Build"){
+          steps{
+           bat 'mvn clean'
+          }
+        }
     stage('Test'){
         steps{
              echo 'Testing the code'
-             bat 'mvn clean test'
+             bat 'mvn test'
         }
     }
     }
