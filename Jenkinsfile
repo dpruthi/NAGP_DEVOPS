@@ -46,28 +46,29 @@ pipeline {
         )
       }
     }
-  stage('Generate Reports') {
-    steps {
-      // Publish TestNG results
-      // Assuming reports are generated in target/surefire-reports
-      publishTestNGResults(testngXml: '**/target/surefire-reports/testng-results.xml')
+    stage('Generate Reports') {
+      steps {
+        // Publish TestNG results
+        // Assuming reports are generated in target/surefire-reports
+        publishTestNGResults(testngXml: '**/target/surefire-reports/testng-results.xml')
+      }
     }
   }
-}
-post {
-  always {
-    echo 'this is always going to execute, in case of failure as well'
+  post {
+    always {
+      echo 'this is always going to execute, in case of failure as well'
 
-    // Always archive reports, even if the build fails
-    // Archive the TestNG reports for later analysis
-    archiveArtifacts artifacts: 'target/surefire-reports/testng-results.xml', fingerprint: true
-    archiveArtifacts artifacts: 'target/surefire-reports/*.html', fingerprint: true
+      // Always archive reports, even if the build fails
+      // Archive the TestNG reports for later analysis
+      archiveArtifacts artifacts: 'target/surefire-reports/testng-results.xml', fingerprint: true
+      archiveArtifacts artifacts: 'target/surefire-reports/*.html', fingerprint: true
+    }
+
+    success {
+      echo 'build success'
+    }
+    failure {
+      echo 'build failed'
+    }
   }
-}
-success {
-  echo 'build success'
-}
-failure {
-  echo 'build failed'
-}
 }
