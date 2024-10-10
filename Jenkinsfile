@@ -64,12 +64,10 @@ post {
     archiveArtifacts artifacts: 'target/surefire-reports/testng-results.xml', fingerprint: true
     archiveArtifacts artifacts: 'target/surefire-reports/*.html', fingerprint: true
   }
-
 }
 success {
   echo 'build success'
 }
 failure {
   echo 'build failed'
-}
 }
