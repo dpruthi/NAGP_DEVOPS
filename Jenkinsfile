@@ -53,7 +53,7 @@ pipeline {
 
       // Always archive reports, even if the build fails
       // Archive the TestNG reports for later analysis
-      junit 'target/surefire-reports/testng-results.xml'
+       junit 'build/test-results/test/*.xml'
 
     }
 
