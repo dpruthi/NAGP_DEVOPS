@@ -70,3 +70,4 @@ success {
 failure {
   echo 'build failed'
 }
+}
