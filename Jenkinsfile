@@ -52,6 +52,10 @@ pipeline {
     post{
         always{
             echo 'this is always going to execute, in case of failure as well'
+
+                        // Always archive reports, even if the build fails
+            junit '**/test-output/testng-results.xml' // Publish TestNG results
+
         }
         success{
             echo 'build success'
