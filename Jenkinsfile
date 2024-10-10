@@ -46,13 +46,6 @@ pipeline {
         )
       }
     }
-    stage('Generate Reports') {
-      steps {
-        // Publish TestNG results
-        // Assuming reports are generated in target/surefire-reports
-        publishTestNGResults(testngXml: '**/target/surefire-reports/testng-results.xml')
-      }
-    }
   }
   post {
     always {
@@ -60,8 +53,8 @@ pipeline {
 
       // Always archive reports, even if the build fails
       // Archive the TestNG reports for later analysis
-      archiveArtifacts artifacts: 'target/surefire-reports/testng-results.xml', fingerprint: true
-      archiveArtifacts artifacts: 'target/surefire-reports/*.html', fingerprint: true
+      junit 'target/surefire-reports/testng-results.xml'
+
     }
 
     success {
