@@ -46,7 +46,6 @@ pipeline {
         )
       }
     }
-  }
   stage('Generate Reports') {
     steps {
       // Publish TestNG results
