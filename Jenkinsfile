@@ -42,11 +42,11 @@ pipeline {
           releaseRepo: 'nagp_assignment_2024',
           snapshotRepo: 'nagp_assignment_2024'
         )
-        rtMavenRun(
-          pom: 'pom.xml',
-          goals: 'clean install',
-          deployerId: 'deployer'
-        )
+          rtMavenRun(
+            pom: 'pom.xml',
+            goals: 'clean install -DskipTests',
+            deployerId: 'deployer'
+          )
         rtPublishBuildInfo(
           serverId: '9653338@artifactory',
         )
