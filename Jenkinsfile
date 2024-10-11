@@ -14,26 +14,26 @@ pipeline {
         bat 'mvn clean'
       }
     }
+   stage("Sonar Analysis") {
+        steps {
+          withSonarQubeEnv("SonarQube_Check") {
+            bat "mvn sonar:sonar"
+          }
+        }
+      }
+   stage("Quality Gate Status") {
+     steps {
+        timeout(time: 1, unit: 'HOURS') {
+            waitForQualityGate abortPipeline: true
+           }
+        }
+     }
     stage('Test') {
       steps {
         echo 'Testing the code'
         bat 'mvn test'
       }
     }
-    stage("Sonar Analysis") {
-      steps {
-        withSonarQubeEnv("SonarQube_Check") {
-          bat "mvn sonar:sonar"
-        }
-      }
-    }
-     stage("Quality Gate Status") {
-       steps {
-          timeout(time: 1, unit: 'HOURS') {
-              waitForQualityGate abortPipeline: true
-             }
-          }
-       }
     stage("Publish to Artifactory") {
       steps {
         rtMavenDeployer(
