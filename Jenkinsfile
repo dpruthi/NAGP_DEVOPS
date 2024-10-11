@@ -23,8 +23,16 @@ pipeline {
     stage("Sonar Analysis") {
       steps {
         withSonarQubeEnv("SonarQube_Check") {
-          bat "echo Sonar Run half"
-          bat "mvn sonar:sonar"
+          //bat "mvn sonar:sonar"
+          script {
+                           // Perform the SonarQube analysis
+                      def sonarResult = sh(script: 'mvn sonar:sonar', returnStatus: true)
+
+                         // Check if the analysis was successful
+                         if (sonarResult != 0) {
+                             error("SonarQube analysis failed!")
+                         }
+                     }
         }
       }
     }
