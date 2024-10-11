@@ -23,19 +23,17 @@ pipeline {
     stage("Sonar Analysis") {
       steps {
         withSonarQubeEnv("SonarQube_Check") {
-          //bat "mvn sonar:sonar"
-          script {
-                           // Perform the SonarQube analysis
-                      def sonarResult = sh(script: 'mvn sonar:sonar', returnStatus: true)
-
-                         // Check if the analysis was successful
-                         if (sonarResult != 0) {
-                             error("SonarQube analysis failed!")
-                         }
-                     }
+          bat "mvn sonar:sonar"
         }
       }
     }
+     stage("Quality Gate Status") {
+       steps {
+          timeout(time: 1, unit: 'HOURS') {
+              waitForQualityGate abortPipeline: true
+             }
+          }
+       }
     stage("Publish to Artifactory") {
       steps {
         rtMavenDeployer(
