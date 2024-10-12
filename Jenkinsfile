@@ -34,6 +34,12 @@ pipeline {
         bat 'mvn test'
       }
     }
+   stage('Generate TestNG report') {
+        steps {
+          echo 'Generate TestNG Report'
+          testNG()
+      }
+    }
     stage("Publish to Artifactory") {
       steps {
         rtMavenDeployer(
@@ -59,7 +65,7 @@ pipeline {
 
       // Always archive reports, even if the build fails
       // Archive the TestNG reports for later analysis
-       testNG()
+
 
     }
 
