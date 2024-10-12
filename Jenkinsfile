@@ -62,11 +62,6 @@ pipeline {
   post {
     always {
       echo 'this is always going to execute, in case of failure as well'
-
-      // Always archive reports, even if the build fails
-      // Archive the TestNG reports for later analysis
-
-
     }
 
     success {
